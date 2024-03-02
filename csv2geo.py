@@ -1,14 +1,18 @@
-'''
+"""
 Script that takes a .csv file with with any number of EEG coordinates and trasforms it to a 3D .geo file 
-For meashing with individualized models.
+For meshing EEG nets with individualized head models.
 By Ido Haber March 1, 2024
-'''
+"""
 
 # You have to make sure that the CODEC is UTF-8 otherwise it will fail.
 # If in doubt - open your file and Safe it as ".csv".
 import csv
-def format_electrode_data(input_path, output_path):
-    with open(input_path, "r", encoding="utf-8") as csvfile, open(output_path, "w") as outputfile:
+
+
+def format_electrode_data(INPUT_PATH, OUTPUT_PATH):
+    with open(INPUT_PATH, "r", encoding="utf-8") as csvfile, open(
+        OUTPUT_PATH, "w"
+    ) as outputfile:
         csvreader = csv.reader(csvfile)
         outputfile.write('View""{\n')
 
@@ -28,9 +32,9 @@ def format_electrode_data(input_path, output_path):
         outputfile.write("View[myView].LineWidth=2;\n")
 
 
+INPUT_PATH = "/Users/idohaber/Desktop/Projects/16_Individualized_models/EGI_256.csv"
+OUTPUT_PATH = "/Users/idohaber/Desktop/Projects/16_Individualized_models/EGI_256.geo"
 
-input_path = "/Users/idohaber/Desktop/conversion/EGI_256.csv"
-output_path = "/Users/idohaber/Desktop/conversion/EGI_256.geo"
 
 # Replace 'your_input.csv' and 'your_output.txt' with your actual file paths
-format_electrode_data(input_path , output_path)
+format_electrode_data(INPUT_PATH, OUTPUT_PATH)
