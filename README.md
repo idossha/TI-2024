@@ -1,8 +1,6 @@
-This is a Python script with no dependencies.
+This script is designed for a specific case of structuring the data for Gmsh visualization in Gmsh scripting language.
 
-Keep in mind that it is for a specific case of structuring the data for Gmsh visualization.
-
-.csv -> .geo
+Input .csv -> Output .geo
 
 Can be modified for other models.
 
