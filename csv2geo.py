@@ -11,7 +11,7 @@ import csv
 
 def format_electrode_data(INPUT_PATH, OUTPUT_PATH):
     with open(INPUT_PATH, "r", encoding="utf-8") as csvfile, open(
-        OUTPUT_PATH, "w"
+        OUTPUT_PATH, "w", encoding="utf-8"
     ) as outputfile:
         csvreader = csv.reader(csvfile)
         outputfile.write('View""{\n')
