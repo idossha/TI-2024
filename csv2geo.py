@@ -24,16 +24,20 @@ def format_electrode_data(INPUT_PATH, OUTPUT_PATH):
             outputfile.write(f'T3({x}, {y}, {z}, 0){{"{name}"}};')
 
         # Append the provided block at the end
-        outputfile.write("};\n")
-        outputfile.write("\nmyView = PostProcessing.NbViews-1;\n")
-        outputfile.write("View[myView].PointType=1;\n")
-        outputfile.write("View[myView].PointSize=6;\n")
-        outputfile.write("View[myView].LineType=1;\n")
-        outputfile.write("View[myView].LineWidth=2;\n")
+
+        outputfile.write(
+            """};\n
+        myView = PostProcessing.NbViews-1;
+        View[myView].PointType=1;
+        View[myView].PointSize=6;
+        View[myView].LineType=1;
+        View[myView].LineWidth=2;
+        """
+        )
 
 
-INPUT_PATH = "/Users/idohaber/Desktop/Projects/16_Individualized_models/EGI_256.csv"
-OUTPUT_PATH = "/Users/idohaber/Desktop/Projects/16_Individualized_models/EGI_256.geo"
+INPUT_PATH = "/Users/idohaber/Desktop/Projects/16_Individualized_models/example_dataset/EGI_256.csv"
+OUTPUT_PATH = "/Users/idohaber/Desktop/Projects/16_Individualized_models/EGI_256b.geo"
 
 
 # Replace 'your_input.csv' and 'your_output.txt' with your actual file paths
