@@ -25,15 +25,14 @@ def format_electrode_data(INPUT_PATH, OUTPUT_PATH):
 
         # Append the provided block at the end
 
-        outputfile.write(
-            """};\n
-        myView = PostProcessing.NbViews-1;
-        View[myView].PointType=1;
-        View[myView].PointSize=6;
-        View[myView].LineType=1;
-        View[myView].LineWidth=2;
-        """
-        )
+        # fmt: off
+        outputfile.write("""};\n
+myView = PostProcessing.NbViews-1;
+View[myView].PointType=1;
+View[myView].PointSize=6;
+View[myView].LineType=1;
+View[myView].LineWidth=2; """)
+        # fmt: on
 
 
 INPUT_PATH = "/Users/idohaber/Desktop/Projects/16_Individualized_models/example_dataset/EGI_256.csv"
