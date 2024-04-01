@@ -1,43 +1,59 @@
-"""
-Script that takes a .csv file with with any number of EEG coordinates and trasforms it to a 3D .geo file 
-For meshing EEG nets with individualized head models.
-By Ido Haber March 1, 2024
-"""
-
-# You have to make sure that the CODEC is UTF-8 otherwise it will fail.
-# If in doubt - open your file and Safe it as ".csv".
 import csv
+import os
+
+"""
+This is the second step in source localization. 
+
+Now you are working with .csv files.
+This script will take all .csv file in a directory and convert them to .geo 
+
+You will be able to view the net in 3D and load it to SimNIBS.
+
+Created: March 01, 2024
+Last Update: April 01, 2024
+
+Ido 
+
+"""
 
 
-def format_electrode_data(INPUT_PATH, OUTPUT_PATH):
-    with open(INPUT_PATH, "r", encoding="utf-8") as csvfile, open(
-        OUTPUT_PATH, "w", encoding="utf-8"
+def format_electrode_data(input_path, output_path):
+    with open(input_path, "r", encoding="utf-8") as csvfile, open(
+        output_path, "w", encoding="utf-8"
     ) as outputfile:
         csvreader = csv.reader(csvfile)
+        # Skip the header
+        next(csvreader)
         outputfile.write('View""{\n')
 
         for row in csvreader:
-            # Assuming columns are in the order of ID, X, Y, Z, Name
-            # Adjust the indices according to your CSV file
-            x, y, z, name = row[1], row[2], row[3], row[4]
+            # Assuming columns are in the order of electrode name, X, Y, Z
+            # Adjust the indices if your CSV format is different
+            if len(row) < 4:
+                continue  # Skip rows that don't have enough data
+            x, y, z, name = row[1], row[2], row[3], row[0]
             outputfile.write(f"SP({x}, {y}, {z}){{0}};\n")
-            outputfile.write(f'T3({x}, {y}, {z}, 0){{"{name}"}};')
+            outputfile.write(f'T3({x}, {y}, {z}, 0){{"{name}"}};\n')
 
-        # Append the provided block at the end
-
-        # fmt: off
-        outputfile.write("""};\n
+        outputfile.write(
+            """};\n
 myView = PostProcessing.NbViews-1;
 View[myView].PointType=1;
 View[myView].PointSize=6;
 View[myView].LineType=1;
-View[myView].LineWidth=2; """)
-        # fmt: on
+View[myView].LineWidth=2; """
+        )
 
 
-INPUT_PATH = "/Users/idohaber/Desktop/Projects/16_Individualized_models/example_dataset/EGI_256.csv"
-OUTPUT_PATH = "/Users/idohaber/Desktop/Projects/16_Individualized_models/EGI_256b.geo"
+def process_directory(directory_path):
+    for filename in os.listdir(directory_path):
+        if filename.endswith(".csv"):
+            input_path = os.path.join(directory_path, filename)
+            output_path = os.path.splitext(input_path)[0] + ".geo"
+            format_electrode_data(input_path, output_path)
+            print(f"Processed {input_path} -> {output_path}")
 
 
-# Replace 'your_input.csv' and 'your_output.txt' with your actual file paths
-format_electrode_data(INPUT_PATH, OUTPUT_PATH)
+# Example usage
+directory_path = "/Users/idohaber/Desktop/Geolocations"  # Update this with the path to your directory
+process_directory(directory_path)
