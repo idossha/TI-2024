@@ -1,19 +1,28 @@
-This script is designed for a specific case of structuring the data for Gmsh visualization in Gmsh scripting language.
+This package is designed for a **specific case** of structuring the electrode digitization output from EGI scanner to `good to go` files. the output is a .txt file in a specific structure.
+
+1. txt2csv: will give you a clean csv file with the critical data.
+2. csv2geo: will take the data and format it to Gmsh language for 3D visualization.
+3. txt2mat: will give you a .mat file compatible for Brainstorm co-registration.
 
 ---
 
 ![3D hdEEG](/example_dataset/3D_hdEEG_net.png)
 
-Input .csv -> Output .geo
-
-Can be modified for other models.
-
-Ido
-
 ---
 
 References:
 
-https://gmsh.info/
+#### csv2geo:
 
+https://gmsh.info/
 https://gmsh.info/doc/texinfo/gmsh.pdf
+
+#### txt2mat:
+
+source code of Brainstorm -> defaults -> eeg -> ICBM152
+
+---
+
+Feel free to modify these for your specific needs.
+
+Ido
