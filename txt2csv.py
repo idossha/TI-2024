@@ -26,12 +26,11 @@ def process_electrode_file(input_filepath):
 
 
 def process_directory(directory_path):
-    # List all files in the given directory
     for filename in os.listdir(directory_path):
-        filepath = os.path.join(directory_path, filename)
-        if os.path.isfile(filepath):
-            # You can add additional checks here to process only specific file types
-            process_electrode_file(filepath)
+        if filename.endswith(".txt"):
+            input_path = os.path.join(directory_path, filename)
+            output_path = os.path.splitext(input_path)[0] + ".csv"
+            process_electrode_file(input_path)
 
 
 def main():
