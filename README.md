@@ -1,4 +1,4 @@
-This package is designed for a **specific case** of structuring the electrode digitization output from EGI scanner to `good to go` files. the output is a .txt file in a specific structure.
+This package is designed for a **specific case** of structuring the electrode digitization output from EGI scanner to ready `good to go` files.
 
 1. txt2csv: will give you a clean csv file with the critical data.
 2. csv2geo: will take the data and format it to Gmsh language for 3D visualization.
