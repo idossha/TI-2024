@@ -1,18 +1,6 @@
+import argparse
 import os
-
-"""
-This script should be the first step from in the process of source localization.
-
-It takes the txt file containing the digitazation of electrodes from EGI, parse the data, 
-and outputs it into a .csv file. 
-
-the second step is to run csv2geo.py .
-
-Created: April 01, 2024
-
-- Ido
-
-"""
+import sys
 
 
 def process_electrode_file(input_filepath):
@@ -46,6 +34,22 @@ def process_directory(directory_path):
             process_electrode_file(filepath)
 
 
-# Update 'path_to_directory' with the path to the directory containing your files
-path_to_directory = "/Users/idohaber/Desktop/Geolocations"
-process_directory(path_to_directory)
+def main():
+    parser = argparse.ArgumentParser(
+        description="Process a directory of electrode files into CSV format."
+    )
+    parser.add_argument(
+        "directory", type=str, help="Directory containing the electrode files"
+    )
+
+    args = parser.parse_args()
+
+    if os.path.isdir(args.directory):
+        process_directory(args.directory)
+    else:
+        print("The provided directory does not exist or is not a directory.")
+
+
+# python process_electrodes.py path_to_your_directory
+if __name__ == "__main__":
+    main()

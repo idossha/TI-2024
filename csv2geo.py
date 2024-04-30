@@ -1,20 +1,6 @@
+import argparse
 import csv
 import os
-
-"""
-This is the second step in source localization. 
-
-Now you are working with .csv files.
-This script will take all .csv file in a directory and convert them to .geo 
-
-You will be able to view the net in 3D and load it to SimNIBS.
-
-Created: March 01, 2024
-Last Update: April 01, 2024
-
-Ido 
-
-"""
 
 
 def format_electrode_data(input_path, output_path):
@@ -54,6 +40,22 @@ def process_directory(directory_path):
             print(f"Processed {input_path} -> {output_path}")
 
 
-# Example usage
-directory_path = "/Users/idohaber/Desktop/Geolocations"  # Update this with the path to your directory
-process_directory(directory_path)
+def main():
+    parser = argparse.ArgumentParser(
+        description="Convert CSV files to GEO format for SimNIBS."
+    )
+    parser.add_argument(
+        "directory", type=str, help="Directory containing the CSV files"
+    )
+
+    args = parser.parse_args()
+
+    if os.path.isdir(args.directory):
+        process_directory(args.directory)
+    else:
+        print("The provided directory does not exist or is not a directory.")
+
+
+# python csv_to_geo.py path_to_your_directory
+if __name__ == "__main__":
+    main()
