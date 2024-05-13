@@ -3,6 +3,7 @@ This package is designed for a **specific case** of structuring the electrode di
 1. txt2csv: will give you a clean csv file with the critical data.
 2. csv2geo: will take the data and format it to Gmsh language for 3D visualization.
 3. txt2mat: will give you a .mat file compatible for Brainstorm co-registration.
+4. auto-segment: will run through all your ppt directories and run the `charm` function from SimNIBS to segment and mesh MRIs.
 
 ---
 
