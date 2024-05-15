@@ -52,3 +52,8 @@ for subj in $nifti_dir/*.nii.gz; do
 done
 
 echo "All registrations completed successfully."
+
+
+# the output of interest is: ${subj%%.*}_to_MNI2mm_nonlinear.nii.gz
+# to visualize all at once: run 
+#   `fsleyes $(ls *.nii.gz)`
