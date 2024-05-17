@@ -1,8 +1,8 @@
-A repo containing the scripts used for this project.
+A repo containing the scripts used for this project. See [[example data]] dir for reference.
 
-Ido Haber
-2024
-STRENGTHEN Project
+- Ido Haber
+- 2024
+- STRENGTHEN Project
 
 ---
 
@@ -17,18 +17,15 @@ STRENGTHEN Project
 4. **auto-charm.sh:** will run through all your ppt directories and run the `charm` function from SimNIBS to segment and mesh MRIs.
 
 5. **fsl-pipeline.py:** take an MRI and will do the following:
-   a. reorient the scan using `fslreorient2std`
-   b. Extract brain using `bet` (this is still funky)
-   c. Perform linear tranformation using `FLIRT`
-   d. Perform non-linear tranformation using `FNIRT`
-   The user needs to decide what template to register the tranformation to.
+
+   - a. reorient the scan using `fslreorient2std`
+   - b. Extract brain using `bet` (this is still funky)
+   - c. Perform linear tranformation using `FLIRT`
+   - d. Perform non-linear tranformation using `FNIRT`
+     The user needs to decide what template to register the tranformation to.
 
 6. **extract-thrsh.sh:** creates a binary mask from an MRI scan.
    - Uses `fslmaths`
-
----
-
-![3D hdEEG](/example_dataset/3D_hdEEG_net.png)
 
 ---
 
