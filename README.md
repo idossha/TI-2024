@@ -29,6 +29,33 @@ A repo containing the scripts used for this project. See [[example data]] dir fo
 
 ---
 
+### Want to make your life easier?
+
+Make your scripts executable from anywhere by:
+
+1. Add the Script Directory to Your PATH:
+   The PATH environment variable tells the shell which directories to search for executable files in response to commands issued by a user. You can add your script’s directory to this variable.
+   • Find the full path to where your scripts are located. For example, if it’s in /home/username/scripts, you would use this path.
+   • Edit your shell profile file (like .bashrc or .bash_profile for Bash shell, .zshrc for Zsh) located in your home directory. Add the following line at the end of the file:
+
+`export PATH=$PATH:/home/username/scripts`
+
+Source your profile file to apply the changes immediately without needing to logout or restart your terminal: `source ~/.bashrc`
+
+**for Python scripts:**
+
+Ensure your Python script starts with a shebang line pointing to the Python interpreter: `#!/usr/bin/env python3`
+
+Make the script executable: `chmod +x /path/to/your/script.py`
+
+Then follow the steps above.
+
+---
+
+To make your life even easier, create symlinks for all your scripts to a single directory like `/usr/local/bin/` and just add that to your path.
+
+---
+
 References:
 
 #### csv2geo:
