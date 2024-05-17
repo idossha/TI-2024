@@ -1,54 +1,37 @@
-import argparse
-import os
+import csv
 import sys
 
 
-def process_electrode_file(input_filepath):
-    # Generate an output filepath by changing the extension to .csv
-    output_filepath = os.path.splitext(input_filepath)[0] + ".csv"
+def process_file(input_file, output_file):
+    try:
+        with open(input_file, 'r', encoding='utf-8') as infile, open(output_file, 'w', newline='', encoding='utf-8') as outfile:
+            reader = csv.reader(infile, delimiter='\t')
+            writer = csv.writer(outfile)
 
-    with open(input_filepath, "r") as infile, open(output_filepath, "w") as outfile:
-        # Write the CSV header
-        outfile.write("electrode name,x,y,z\n")
+            # Write the header
+            #writer.writerow(['Electrode', 'Loc. X', 'Loc. Y', 'Loc. Z', 'Sample Name'])
 
-        # Skip the first five lines (header)
-        for _ in range(5):
-            next(infile)
+            # Skip the header and notes in the input file
+            for _ in range(9):
+                next(reader)
 
-        # Process each line of the actual data
-        for line in infile:
-            parts = line.strip().split()
-            if len(parts) == 5:  # Ensure the line has the correct number of parts
-                electrode_name, x, y, z, _ = parts
-                outfile.write(f"{electrode_name},{x},{y},{z}\n")
+            # Process each line in the input file
+            for row in reader:
+                if row:  # ensuring the row is not empty
+                    sample_name = row[0]
+                    loc_x = row[2]
+                    loc_y = row[3]
+                    loc_z = row[4]
+                    writer.writerow(['Electrode', loc_x, loc_y, loc_z, sample_name])
 
-    print(f"Processed {input_filepath} -> {output_filepath}")
+    except Exception as e:
+        print(f"Error: {e}")
 
-
-def process_directory(directory_path):
-    for filename in os.listdir(directory_path):
-        if filename.endswith(".txt"):
-            input_path = os.path.join(directory_path, filename)
-            output_path = os.path.splitext(input_path)[0] + ".csv"
-            process_electrode_file(input_path)
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description="Process a directory of electrode files into CSV format."
-    )
-    parser.add_argument(
-        "directory", type=str, help="Directory containing the electrode files"
-    )
-
-    args = parser.parse_args()
-
-    if os.path.isdir(args.directory):
-        process_directory(args.directory)
-    else:
-        print("The provided directory does not exist or is not a directory.")
-
-
-# python process_electrodes.py path_to_your_directory
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) < 3:
+        print("Usage: python3 bs2sn.py input.txt output.csv")
+    else:
+        input_path = sys.argv[1]
+        output_path = sys.argv[2]
+        process_file(input_path, output_path)
+        print(f"File processed successfully: {output_path}")
