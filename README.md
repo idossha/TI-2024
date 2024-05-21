@@ -1,4 +1,4 @@
-A repo containing the scripts used for this project. See [[example data]] dir for reference.
+A repo containing the scripts used for this project.
 
 - Ido Haber
 - 2024
@@ -25,7 +25,16 @@ A repo containing the scripts used for this project. See [[example data]] dir fo
      The user needs to decide what template to register the tranformation to.
 
 6. **extract-thrsh.sh:** creates a binary mask from an MRI scan.
+
    - Uses `fslmaths`
+
+7. **leadfield.py** calculates the forward model for optimization / faster TI testing.
+
+8. **TI.py** calculates TI field based on the paper from Grossman et al 2017.
+
+9. **gm_extract.py** creates a seperated mesh for TI field in the cortex.
+
+10. **norm_TI.py** ... TBC
 
 ---
 
