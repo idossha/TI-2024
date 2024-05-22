@@ -14,10 +14,7 @@ SimNIBS, FSL, Brainstorm
 
 ### Scripts:
 
-1. **txt2csv.py:** will take .txt output from Brainstorm after refinement and will put in a .csv format for SimNIBS to work with.
-
-   - Execution from command line: python3 txt2csv.py input.txt output.csv
-
+1. **txt2csv.py:** will take .txt output from Brainstorm/EGI system and will put in a .csv format for SimNIBS to work with.
 2. **csv2geo.py:** will take the data and format it to Gmsh language for 3D visualization.
 3. **txt2mat.py:** will give you a .mat file compatible for Brainstorm co-registration.
 4. **auto-charm.sh:** will run through all your ppt directories and run the `charm` function from SimNIBS to segment and mesh MRIs.

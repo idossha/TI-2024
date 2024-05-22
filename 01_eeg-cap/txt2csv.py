@@ -41,7 +41,10 @@ def main():
         description="Process electrode text file and generate CSV."
     )
     parser.add_argument(
-        "input_file", type=str, nargs="?", help="Path to the input text file (optional)"
+        "input_file",
+        type=str,
+        nargs="?",
+        help="Path to the input text file (optional).",
     )
     parser.add_argument(
         "output_file",
@@ -49,6 +52,14 @@ def main():
         nargs="?",
         help="Path to the output CSV file (optional)",
     )
+
+    parser.add_argument(
+        "no arguements",
+        type=str,
+        nargs="?",
+        help=" If not given any arguements, it will loop through all .txt files in the directory",
+    )
+
     args = parser.parse_args()
 
     if args.input_file:
