@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Define the main directory path containing the sub-directories
+# Each subdirectory should be a ppt containing anatomical data 
 main_directory="/Users/idohaber/Desktop/Strengthen_MRI"
 
 # Change to the main directory
@@ -21,6 +22,7 @@ for subdir in */; do
 
 
     # Run the command
+    # qform is a rigid body transformation while sform is another option performing affine transformation.
     charm "$x" "$y" "$z" --forceqform
 done
 

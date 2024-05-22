@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Define the directory containing your NIfTI files
+# Define the directory containing your NIfTI files of simulations
 DIR="/Volumes/CSC-Ido/analysis/TI_MNI/"
 
 # Define the threshold value

@@ -4,6 +4,8 @@ from simnibs import mesh_io
 Load your original mesh
 Crop the mesh to only include grey matter (tag #2)
 Save this grey matter mesh to a new file
+
+This is now embedded in the `TI.py` script.
 """
 
 

@@ -24,12 +24,14 @@ for subj in $nifti_dir/*.nii.gz; do
     fslreorient2std $subj ${subj%%.*}_reoriented.nii.gz
 
     # Brain extraction
+    # This step is tricky, you might have to tweak it mannually for each ppt. 
     bet ${subj%%.*}_reoriented.nii.gz ${subj%%.*}_brain -f 0.3 -g -0.1
 
     # Bias field correction
     fast -B -t 1 -n 3 -H 0.1 -I 4 -l 20.0 ${subj%%.*}_brain.nii.gz
 
     # FLIRT registration to 2mm MNI template
+    # Can potentially use 1mm MNI template for publication.
     flirt -in ${subj%%.*}_brain.nii.gz -ref $FSLDIR/data/standard/MNI152_T1_2mm_brain.nii.gz \
           -out ${subj%%.*}_to_MNI2mm_linear \
           -omat ${subj%%.*}_to_MNI2mm_linear.mat \
@@ -40,6 +42,7 @@ for subj in $nifti_dir/*.nii.gz; do
     fi
 
     # FNIRT registration to 2mm MNI template
+    # same here. Just make sure it is the same atlas as above.
     fnirt --in=${subj%%.*}_brain.nii.gz --aff=${subj%%.*}_to_MNI2mm_linear.mat \
           --cout=${subj%%.*}_to_MNI2mm_nonlinear_warp \
           --config=$FSLDIR/etc/flirtsch/T1_2_MNI152_2mm.cnf \

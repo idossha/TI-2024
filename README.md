@@ -6,6 +6,12 @@ A repo containing the scripts used for this project.
 
 ---
 
+Dependencies:
+
+SimNIBS, FSL, Brainstorm
+
+---
+
 ### Scripts:
 
 1. **txt2csv.py:** will take .txt output from Brainstorm after refinement and will put in a .csv format for SimNIBS to work with.
