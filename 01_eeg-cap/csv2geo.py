@@ -1,5 +1,8 @@
+#!/usr/bin/env python3
+
 import argparse
 import csv
+import glob
 import os
 
 
@@ -17,7 +20,7 @@ def format_electrode_data(input_path, output_path):
             # Adjust the indices if your CSV format is different
             if len(row) < 4:
                 continue  # Skip rows that don't have enough data
-            x, y, z, name = row[1], row[2], row[3], row[0]
+            x, y, z, name = row[1], row[2], row[3], row[4]
             outputfile.write(f"SP({x}, {y}, {z}){{0}};\n")
             outputfile.write(f'T3({x}, {y}, {z}, 0){{"{name}"}};\n')
 
@@ -32,12 +35,11 @@ View[myView].LineWidth=2; """
 
 
 def process_directory(directory_path):
-    for filename in os.listdir(directory_path):
-        if filename.endswith(".csv"):
-            input_path = os.path.join(directory_path, filename)
-            output_path = os.path.splitext(input_path)[0] + ".geo"
-            format_electrode_data(input_path, output_path)
-            print(f"Processed {input_path} -> {output_path}")
+    csv_files = glob.glob(os.path.join(directory_path, "*.csv"))
+    for input_path in csv_files:
+        output_path = os.path.splitext(input_path)[0] + ".geo"
+        format_electrode_data(input_path, output_path)
+        print(f"Processed {input_path} -> {output_path}")
 
 
 def main():
@@ -45,7 +47,11 @@ def main():
         description="Convert CSV files to GEO format for SimNIBS."
     )
     parser.add_argument(
-        "directory", type=str, help="Directory containing the CSV files"
+        "directory",
+        type=str,
+        nargs="?",
+        default=".",
+        help="Directory containing the CSV files",
     )
 
     args = parser.parse_args()
@@ -56,6 +62,5 @@ def main():
         print("The provided directory does not exist or is not a directory.")
 
 
-# python csv_to_geo.py path_to_your_directory
 if __name__ == "__main__":
     main()
