@@ -62,7 +62,7 @@ Make your scripts executable from anywhere by:
 
 `export PATH=$PATH:/home/username/scripts`
 
-Source your profile file to apply the changes immediately without needing to logout or restart your terminal: `source ~/.bashrc`
+Source your profile file to apply the changes without needing to logout or restart your terminal: `source ~/.bashrc`
 
 **for Python scripts:**
 
@@ -74,7 +74,7 @@ Then follow the steps above.
 
 ---
 
-To make your life even easier, create symlinks for all your scripts to a single directory like `/usr/local/bin/` and just add that to your path.
+To make your life even easier, create symlinks for all your scripts to a single directory like `/usr/local/bin/` so you do not have to move them from where they are sitting, and just add that dir to your path.
 
 ---
 
