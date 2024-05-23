@@ -10,6 +10,14 @@ Dependencies:
 
 SimNIBS, FSL, Brainstorm
 
+Brainstorm sits on top of MATLAB  
+SimNIBS & FSL can be downloaded from their respective websites.
+
+---
+
+To create the conda env for simnibs: `conda env create -f sn_env.yml`  
+To create the conda env for YASA: `conda env create -f yasa_env.yml `
+
 ---
 
 ### Scripts:
@@ -37,7 +45,9 @@ SimNIBS, FSL, Brainstorm
 
 9. **gm_extract.py** creates a seperated mesh for TI field in the cortex.
 
-10. **norm_TI.py** ... TBC
+10. **norm_TI.py** ... coming soon
+
+11. **SW_detect.ipynb** EEG processing.
 
 ---
 
