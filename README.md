@@ -4,7 +4,7 @@ Ido Haber, 2024, STRENGTHEN Project
 
 ---
 
-Dependencies:
+#### Dependencies:
 
 SimNIBS, FSL, Brainstorm
 
@@ -93,7 +93,9 @@ source code of Brainstorm -> defaults -> eeg -> ICBM152
 
 [https://github.com/raphaelvallat/yasa]
 
-[FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki)
+#### FSL
+
+[https://fsl.fmrib.ox.ac.uk/fsl/fslwiki]
 
 ---
 
