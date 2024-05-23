@@ -1,8 +1,6 @@
 A repo containing the scripts used for this project.
 
-- Ido Haber
-- 2024
-- STRENGTHEN Project
+Ido Haber, 2024, STRENGTHEN Project
 
 ---
 
@@ -12,8 +10,6 @@ SimNIBS, FSL, Brainstorm
 
 Brainstorm sits on top of MATLAB  
 SimNIBS & FSL can be downloaded from their respective websites.
-
----
 
 To create the conda env for simnibs: `conda env create -f sn_env.yml`  
 To create the conda env for YASA: `conda env create -f yasa_env.yml `
@@ -78,7 +74,7 @@ To make your life even easier, create symlinks for all your scripts to a single 
 
 ---
 
-References:
+### References:
 
 #### csv2geo:
 
@@ -88,6 +84,16 @@ https://gmsh.info/doc/texinfo/gmsh.pdf
 #### txt2mat:
 
 source code of Brainstorm -> defaults -> eeg -> ICBM152
+
+#### SimNIBS Documentation
+
+[https://simnibs.github.io/simnibs/build/html/index.html]
+
+#### YASA Documentation
+
+[https://github.com/raphaelvallat/yasa]
+
+[FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki)
 
 ---
 
