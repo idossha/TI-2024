@@ -4,9 +4,13 @@ Ido Haber, 2024, STRENGTHEN Project
 
 ---
 
+[pipe_me.png]
+
+---
+
 #### Dependencies:
 
-SimNIBS, FSL, Brainstorm
+SimNIBS, FSL, Brainstorm, MATLAB, Jupyter
 
 Brainstorm sits on top of MATLAB  
 SimNIBS & FSL can be downloaded from their respective websites.
