@@ -4,7 +4,7 @@ Ido Haber, 2024, STRENGTHEN Project
 
 ---
 
-[pipe_me.png]
+[[pipe_me.png]]
 
 ---
 
