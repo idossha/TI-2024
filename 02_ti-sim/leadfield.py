@@ -15,6 +15,12 @@ tdcs_lf.pathfem = "/Path/FEM_xxx/ld_matrix"
 # m2m_xxx/eeg_positions/file_name.csv
 tdcs_lf.eeg_cap = "xxx.csv"
 
+# electrode configuration
+electrode = tdcs_lf.electrode
+electrode.dimensions = [8, 8]  # in mm
+electrode.shape = "ellipse"  # shape
+electrode.thckness = [4, 2]  # argu1 = gel thickness , argu2=e thickness
+
 """
 You can Uncoment to use the pardiso solver which is faster.
 This solver is faster than the default. However, it requires much more memory (~12 GB)
