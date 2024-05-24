@@ -11,6 +11,9 @@ tdcs_lf.subpath = "/Path_to_subject/m2m_xxx/"
 # output directory
 tdcs_lf.pathfem = "/Path/FEM_xxx/ld_matrix"
 
+# specific .csv file after refinement for each subject. This needs to sit in:
+# m2m_xxx/eeg_positions/file_name.csv
+tdcs_lf.eeg_cap = "xxx.csv"
 
 """
 You can Uncoment to use the pardiso solver which is faster.
