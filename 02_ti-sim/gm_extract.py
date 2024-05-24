@@ -1,3 +1,5 @@
+#!/Users/idohaber/Applications/SimNIBS-4.1/bin/simnibs_python
+# -*- coding: utf-8 -*-
 from simnibs import mesh_io
 
 """

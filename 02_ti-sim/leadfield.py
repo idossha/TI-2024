@@ -1,25 +1,33 @@
-""" Example of a SimNIBS tDCS leadfield in Python
-    Run with:simnibs_python leadfield.py
-    Copyright (C) 2019 Guilherme B Saturnino
+#!/Users/idohaber/Applications/SimNIBS-4.1/bin/simnibs_python
+# -*- coding: utf-8 -*-
+
 """
+Developed by Ido Haber, 2024
+Project: STRENGTHEN
+Center for Sleep & Consciousness, UW Madison
+
+Based on the work of Guilherme B Saturnini 2019
+
+
+"""
+
 
 from simnibs import run_simnibs, sim_struct
 
 tdcs_lf = sim_struct.TDCSLEADFIELD()
-# subject folder
-tdcs_lf.subpath = "/Path_to_subject/m2m_xxx/"
-# output directory
-tdcs_lf.pathfem = "/Path/FEM_xxx/ld_matrix"
 
-# specific .csv file after refinement for each subject. This needs to sit in:
-# m2m_xxx/eeg_positions/file_name.csv
-tdcs_lf.eeg_cap = "xxx.csv"
+# file handling
+tdcs_lf.subpath = "m2m_108"  # subject directory
+tdcs_lf.pathfem = "lf_test"  # output  directory
+tdcs_lf.eeg_cap = "test.csv"  # eeg-cap directory
+
 
 # electrode configuration
 electrode = tdcs_lf.electrode
 electrode.dimensions = [8, 8]  # in mm
 electrode.shape = "ellipse"  # shape
-electrode.thckness = [4, 2]  # argu1 = gel thickness , argu2=e thickness
+electrode.thickness = [4, 2]  # argu1 = gel thickness , argu2=e thickness
+
 
 """
 You can Uncoment to use the pardiso solver which is faster.

@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+##!/Users/idohaber/Applications/SimNIBS-4.1/bin/simnibs_python
+# -*- coding: utf-8 -*- -*- coding: utf-8 -*-
 """
  script that runs two simnibs tDCS simulations
  and calculates the TI envelope based on the suggested equation by Grossman et al 2017.
