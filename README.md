@@ -45,7 +45,12 @@ To create the conda env for YASA: `conda env create -f yasa_env.yml `
 
 9. **gm_extract.py** creates a seperated mesh for TI field in the cortex.
 
-10. **norm_TI.py** ... coming soon
+10. **optimize_tdcs.py** lets you optimize montage based on HD-EEG with a variety of optimization methods:
+
+    - Targets based on xyz coordinates / tissues
+    - radius around target
+    - Intensity and direction of field
+    - Number of active electrodes
 
 11. **SW_detect.ipynb** EEG processing.
 
