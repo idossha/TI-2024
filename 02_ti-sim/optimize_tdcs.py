@@ -2,14 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-
 Based on the work of Guilherme B Saturnini 2019
 Modified by Ido Haber, 2024
 Project: STRENGTHEN
 Center for Sleep & Consciousness, UW Madison
-
-
-
 """
 
 import simnibs

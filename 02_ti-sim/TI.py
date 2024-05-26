@@ -1,14 +1,10 @@
 ##!/Users/idohaber/Applications/SimNIBS-4.1/bin/simnibs_python
 # -*- coding: utf-8 -*- -*- coding: utf-8 -*-
 """
- script that runs two simnibs tDCS simulations
- and calculates the TI envelope based on the suggested equation by Grossman et al 2017.
- 
- Created on Thu Jun 23 17:41:21 2022 @author: axthi
- Modified in Feb 2024 by idohaber
-
-Last update: May 21st, Ido Haber for STRENGTHEN Study
-
+Based on the work of Guilherme B Saturnini 2019
+Modified by Ido Haber, 2024
+Project: STRENGTHEN
+Center for Sleep & Consciousness, UW Madison
 """
 
 import os
