@@ -10,9 +10,10 @@ Place the .gz file in `path_to/fsl/data/atlases/HCP-MMP1/MNI_Glasser_HCP_v1.0.ni
 
 Run the following command to be sure orientation is okay:
 
-'''
-$ fslreorient2std MNI_Glasser_HCP_v1.0.nii.gz MNI_Glasser_HCP_v1.0.nii.gz
-'''
+```bash
+fslreorient2std MNI_Glasser_HCP_v1.0.nii.gz MNI_Glasser_HCP_v1.0.nii.gz
+
+```
 
 The .xlsx file contains the names corresponding to the labels. Also, you could take the info from the .xlsx file and place them in the .xml for convenience.
 
