@@ -62,7 +62,6 @@ electrode.channelnr = 2
 electrode.centre = "E213"
 electrode.shape = "ellipse"
 electrode.dimensions = [8, 8]
-electrode.thickness = [4, 4]
 
 # specify second electrode pair
 tdcs = S.add_tdcslist(deepcopy(tdcs))
