@@ -20,6 +20,11 @@ To create the conda env for YASA: `conda env create -f yasa_env.yml `
 
 ---
 
+p.s Remember that SimNIBS uses its own interpreter, so if you wish to run stuff from the command line..  
+do it as follows: `simnibs_python your_script.py`
+
+---
+
 ### Scripts:
 
 1. **txt2csv.py:** will take .txt output from Brainstorm/EGI system and will put in a .csv format for SimNIBS to work with.
@@ -41,7 +46,7 @@ To create the conda env for YASA: `conda env create -f yasa_env.yml `
 
 7. **leadfield.py** calculates the forward model for optimization / faster TI testing.
 
-8. **TI.py** calculates TI field based on the paper from Grossman et al 2017.
+8. **TI.py** calculates TI field based on the paper from Grossman et al 2017. 
 
 9. **gm_extract.py** creates a seperated mesh for TI field in the cortex.
 
@@ -53,6 +58,12 @@ To create the conda env for YASA: `conda env create -f yasa_env.yml `
     - Number of active electrodes
 
 11. **SW_detect.ipynb** EEG processing.
+
+12. **bi_polar** takes in two meshes of classic TI and calculates their modulation.
+
+13. **TI_utils.py** this is a modification to the source code of SimNIBS that allow for bi/multipolar calculation.
+
+
 
 ---
 
