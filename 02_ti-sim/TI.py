@@ -63,7 +63,8 @@ def run_simulation(montage_name, montage):
 
     ef1 = m1.field["E"]
     ef2 = m2.field["E"]
-    TImax, TImax_vectors = TI.get_maxTI(ef1.value, ef2.value)
+    TImax = TI.get_maxTI(ef1.value, ef2.value)
+    TImax_vectors = TI.get_TImax_vectors(ef1.value, ef2.value)
 
     mout = deepcopy(m1)
     mout.elmdata = []

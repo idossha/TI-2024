@@ -20,10 +20,10 @@ def generate_combinations(E1_plus, E1_minus, E2_plus, E2_minus):
     return combinations
 
 # Example lists
-E1_plus = ['E021', 'E022']
-E1_minus = ['E034', 'E035']
-E2_plus = ['E070', 'E071']
-E2_minus = ['E094', 'E095']
+E1_plus = ['E001', 'E002']
+E1_minus = ['E003', 'E004']
+E2_plus = ['E005', 'E006']
+E2_minus = ['E007', 'E008']
 
 # Generate all combinations
 all_combinations = generate_combinations(E1_plus, E1_minus, E2_plus, E2_minus)
@@ -50,8 +50,8 @@ for combo in all_combinations:
     mout.add_node_field(hlpvar.norm(), f"E_magn2_{E2_pair[0]}_{E2_pair[1]}")
 
     # Option 1: get maximal TI amplitude
-    #TImax = TI.get_maxTI(ef1, ef2)
-    #mout.add_node_field(TImax, f"TImax_{E1_pair[0]}_{E1_pair[1]}_{E2_pair[0]}_{E2_pair[1]}")  # for visualization
+    TImax = TI.get_maxTI(ef1, ef2)
+    mout.add_node_field(TImax, f"TImax_{E1_pair[0]}_{E1_pair[1]}_{E2_pair[0]}_{E2_pair[1]}")  # for visualization
 
     # Option 2: get TI amplitudes along x, y and z
     TIamp = TI.get_dirTI(ef1, ef2, [1, 0, 0])

@@ -3,8 +3,6 @@
 Created on Thu Jun 23 17:41:21 2022
 
 @author: axthi
-
-modified by Ido Haber June 2, 2024
 """
 
 import h5py
@@ -142,16 +140,76 @@ def get_maxTI(E1_org, E2_org):
         * np.linalg.norm(np.cross(E2, E1 - E2), axis=1)
         / np.linalg.norm(E1 - E2, axis=1)
     )
+
+    '''
+	1.	Initialization:
+	•	TImax_vectors is initialized as a zero array with the same shape as E1.
+	2.	Condition Check:
+	•	The condition normE2 <= normE1 * cosalpha is checked to determine the positions where the norm of E2 is less than or equal to the projection of E1 on E2.
+	3.	Updating TImax_vectors:
+	•	For positions where the condition is true (idx):
+	•	TImax_vectors[idx] is set to 2 * E2[idx]. This means that at these positions, the modulation amplitude is twice the magnitude of E2.
+	•	For positions where the condition is false (~idx):
+	•	TImax_vectors[~idx] is calculated using the cross product of E2 and E1 - E2, scaled appropriately. This part:
+	•	np.cross(E2[~idx], E1[~idx] - E2[~idx]) computes the cross product of E2 and E1 - E2.
+	•	The cross product is then divided by the norm of E1 - E2 to normalize it.
+	•	The result is scaled by 2 to get the modulation amplitude vector.
+    '''
+
+
     idx = normE2 <= normE1 * cosalpha
     TImax[idx] = 2 * normE2[idx]
-    #these next four line were modified.
+    #these next four line were modified by Ido Haber.
+    TImax_vectors = np.zeros_like(E1) 
+    TImax_vectors[idx] = 2 * E2[idx]
+    TImax_vectors[~idx] = 2 * np.cross(E2[~idx], E1[~idx] - E2[~idx]) / np.linalg.norm(E1[~idx] - E2[~idx], axis=1)[:, None]
+
+    #return TImax, TImax_vectors
+    return TImax
+
+def get_TImax_vectors(E1_org, E2_org):
+    """
+    calculates the modulation amplitude vectors for the TI envelope
+
+    Parameters
+    ----------
+    E1_org : np.ndarray
+           field of electrode pair 1 (N x 3) where N is the number of
+           positions at which the field was calculated
+    E2_org : np.ndarray
+        field of electrode pair 2 (N x 3)
+
+    Returns
+    -------
+    TImax_vectors : np.ndarray (N x 3)
+        modulation amplitude vectors
+    """
+    assert E1_org.shape == E2_org.shape
+    assert E1_org.shape[1] == 3
+    E1 = E1_org.copy()
+    E2 = E2_org.copy()
+
+    # ensure E1>E2
+    idx = np.linalg.norm(E2, axis=1) > np.linalg.norm(E1, axis=1)
+    E1[idx] = E2[idx]
+    E2[idx] = E1_org[idx]
+
+    # ensure alpha < pi/2
+    idx = np.sum(E1 * E2, axis=1) < 0
+    E2[idx] = -E2[idx]
+
+    # get maximal amplitude of envelope
+    normE1 = np.linalg.norm(E1, axis=1)
+    normE2 = np.linalg.norm(E2, axis=1)
+    cosalpha = np.sum(E1 * E2, axis=1) / (normE1 * normE2)
+
+    idx = normE2 <= normE1 * cosalpha
+    
     TImax_vectors = np.zeros_like(E1)
     TImax_vectors[idx] = 2 * E2[idx]
     TImax_vectors[~idx] = 2 * np.cross(E2[~idx], E1[~idx] - E2[~idx]) / np.linalg.norm(E1[~idx] - E2[~idx], axis=1)[:, None]
 
-    return TImax, TImax_vectors
-
-
+    return TImax_vectors
 
 def get_dirTI(E1, E2, dirvec_org):
     """
