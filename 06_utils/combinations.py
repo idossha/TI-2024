@@ -1,3 +1,17 @@
+
+'''
+Standalone script that takes
+X lists times Y inputs and 
+generate all possible combinations
+
+To be used later for general TI optimization.
+
+Ido Haber
+May 2024
+'''
+
+
+
 from itertools import product
 
 def generate_combinations(E1_plus, E1_minus, E2_plus, E2_minus):

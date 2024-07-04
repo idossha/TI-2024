@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jun 23 17:41:21 2022
+Created on Thu Jun 23 17:41:21 2022 by axthi
 
-@author: axthi
+Modified by Ido Haber May 2024
+
+
+This script runs all combinations of electrodes given in the lists.
+
+Formula: (E+ electrodes * E- electrodes ) ^2
 """
 
 import copy
