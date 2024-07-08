@@ -1,8 +1,10 @@
 
 '''
 Standalone script that takes
-X lists times Y inputs and 
-generate all possible combinations
+1. X lists
+2. Y inputs per list
+
+and generates all possible combinations of electrode montages. 
 
 To be used later for general TI optimization.
 

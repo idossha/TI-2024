@@ -1,3 +1,11 @@
+''' 
+Script that takes an image input and spits a .svg vectorized file.
+Ido Haber
+July 2024
+
+'''
+
+
 import cv2
 import numpy as np
 import svgwrite
@@ -15,7 +23,7 @@ def vectorize_image(input_image_path, output_svg_path):
     gray_image = np.array(image.convert('L'))
     
     # Apply edge detection
-    edges = cv2.Canny(gray_image, threshold1=50, threshold2=150)
+    edges = cv2.Canny(gray_image, threshold1=100, threshold2=150)
     
     # Find contours
     contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -45,8 +53,7 @@ def vectorize_image(input_image_path, output_svg_path):
     dwg.save()
 
 # Example usage
-input_image_path = 'Picture1.png'
-output_svg_path = 'test3.svg'
+input_image_path = '../../../6hz.png'
+output_svg_path = '../../../6hz.svg'
 vectorize_image(input_image_path, output_svg_path)
 
-output_svg_path             
