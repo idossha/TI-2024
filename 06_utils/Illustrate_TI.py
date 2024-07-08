@@ -1,4 +1,4 @@
-#! usr/bin/evn python3
+#!/usr/bin/env python3
 
 '''
 TI waveform illustration for publication 
@@ -10,6 +10,7 @@ July 2024
 
 import numpy as np
 import matplotlib.pyplot as plt
+import argparse
 
 def generate_waveform(f1, f2, A1, A2, t_start, t_end, sampling_rate):
     t = np.linspace(t_start, t_end, int(sampling_rate * (t_end - t_start)))
@@ -47,14 +48,25 @@ def plot_waveform(t, signal1, signal2, interference, f1, f2, A1, A2, filename_ba
     plt.savefig(f'{filename_base}.png')
     plt.show()
 
-# Example usage
-f1 = 100  # Frequency of first signal in Hz
-f2 = 106  # Frequency of second signal in Hz
-A1 = 1  # Amplitude of first signal
-A2 = 1  # Amplitude of second signal
-t_start = 0  # Start time in seconds
-t_end = 2  # End time in seconds
-sampling_rate = 1000  # Sampling rate in Hz
+def main():
+    parser = argparse.ArgumentParser(description='Generate and plot TI waveforms.')
+    parser.add_argument('-f1', type=float, required=True, help='Frequency of first signal in Hz')
+    parser.add_argument('-f2', type=float, required=True, help='Frequency of second signal in Hz')
+    parser.add_argument('-t_end', type=float, default=2, help='End time in seconds (default: 2)')
+    parser.add_argument('-sr', type=float, help='Sampling rate in Hz (default: 10 * f1)')
 
-t, signal1, signal2, interference = generate_waveform(f1, f2, A1, A2, t_start, t_end, sampling_rate)
-plot_waveform(t, signal1, signal2, interference, f1, f2, A1, A2, 'interference_waveform')
+    args = parser.parse_args()
+    
+    f1 = args.f1
+    f2 = args.f2
+    t_end = args.t_end
+    sampling_rate = args.sr if args.sr else 10 * f1
+    A1 = 1
+    A2 = 1
+    t_start = 0
+
+    t, signal1, signal2, interference = generate_waveform(f1, f2, A1, A2, t_start, t_end, sampling_rate)
+    plot_waveform(t, signal1, signal2, interference, f1, f2, A1, A2, 'interference_waveform')
+
+if __name__ == '__main__':
+    main()

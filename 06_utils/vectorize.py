@@ -6,11 +6,11 @@ July 2024
 
 '''
 
-
 import cv2
 import numpy as np
 import svgwrite
 from PIL import Image
+import argparse
 
 def vectorize_image(input_image_path, output_svg_path):
     # Load the image
@@ -53,8 +53,14 @@ def vectorize_image(input_image_path, output_svg_path):
     # Save the SVG file
     dwg.save()
 
-# Example usage
-input_image_path = '../../../6hz.png'
-output_svg_path = '../../../6hz.svg'
-vectorize_image(input_image_path, output_svg_path)
+def main():
+    parser = argparse.ArgumentParser(description='Vectorize an image and save as SVG.')
+    parser.add_argument('input', help='Input image file path')
+    parser.add_argument('output', help='Output SVG file path')
+    
+    args = parser.parse_args()
+    
+    vectorize_image(args.input, args.output)
 
+if __name__ == '__main__':
+    main()
