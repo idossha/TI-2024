@@ -1,3 +1,5 @@
+#! usr/bin/evn python3
+
 '''
 TI waveform illustration for publication 
 

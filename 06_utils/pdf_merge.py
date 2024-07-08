@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 import PyPDF2
 
 def merge_pdfs(pdf_list, output_path):

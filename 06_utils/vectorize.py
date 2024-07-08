@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 ''' 
 Script that takes an image input and spits a .svg vectorized file.
 Ido Haber

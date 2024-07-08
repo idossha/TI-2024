@@ -167,7 +167,7 @@ def get_maxTI(E1_org, E2_org):
     #return TImax, TImax_vectors
     return TImax
 
-def get_TImax_vectors(E1_org, E2_org):
+def get_TI_vectors(E1_org, E2_org):
     """
     calculates the modulation amplitude vectors for the TI envelope
 
@@ -181,7 +181,7 @@ def get_TImax_vectors(E1_org, E2_org):
 
     Returns
     -------
-    TImax_vectors : np.ndarray (N x 3)
+    TI_vectors : np.ndarray (N x 3)
         modulation amplitude vectors
     """
     assert E1_org.shape == E2_org.shape
@@ -205,11 +205,11 @@ def get_TImax_vectors(E1_org, E2_org):
 
     idx = normE2 <= normE1 * cosalpha
     
-    TImax_vectors = np.zeros_like(E1)
-    TImax_vectors[idx] = 2 * E2[idx]
-    TImax_vectors[~idx] = 2 * np.cross(E2[~idx], E1[~idx] - E2[~idx]) / np.linalg.norm(E1[~idx] - E2[~idx], axis=1)[:, None]
+    TI_vectors = np.zeros_like(E1)
+    TI_vectors[idx] = 2 * E2[idx]
+    TI_vectors[~idx] = 2 * np.cross(E2[~idx], E1[~idx] - E2[~idx]) / np.linalg.norm(E1[~idx] - E2[~idx], axis=1)[:, None]
 
-    return TImax_vectors
+    return TI_vectors
 
 def get_dirTI(E1, E2, dirvec_org):
     """
