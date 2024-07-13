@@ -9,8 +9,12 @@ from simnibs.utils import TI_utils as TI
 
 # Dictionary of montages, where each montage contains two electrode pairs
 montages = {
-    "montage1": [("E029", "E116"), ("E005", "E150")],
-    "montage2": [("E030", "E117"), ("E006", "E151")],
+    "1": [("E079", "E143"), ("E066", "E164")],
+    "2": [("E077", "E088"), ("E163", "E142")],
+    "3": [("E024", "E044"), ("E207" , "E185")],
+    "4": [("E064", "E079") , ("E194" , "E066")],
+    "5": [("E068" , "E143") , ("E202" , "E164")]
+    "6": [("E139" , "E149") , ("E138" , "E160")]
 }
 
 # Base paths
@@ -22,7 +26,7 @@ def run_simulation(montage_name, montage):
     S = sim_struct.SESSION()
     S.subpath = base_subpath
     S.pathfem = os.path.join(base_pathfem, f"TI_{montage_name}")
-    S.eeg_cap = "m2m_XXX/eeg_positions/MB_EGI.csv"
+    S.eeg_cap = "m2m_XXX/eeg_positions/XXX_EGI.csv"
     S.map_to_surf = False
     S.map_to_fsavg = False
     S.map_to_vol = False
@@ -54,8 +58,8 @@ def run_simulation(montage_name, montage):
 
     run_simnibs(S)
 
-    m1 = mesh_io.read_msh(os.path.join(S.pathfem, "MB_TDCS_1_scalar.msh"))
-    m2 = mesh_io.read_msh(os.path.join(S.pathfem, "MB_TDCS_2_scalar.msh"))
+    m1 = mesh_io.read_msh(os.path.join(S.pathfem, "XXX_TDCS_1_scalar.msh"))
+    m2 = mesh_io.read_msh(os.path.join(S.pathfem, "XXX_TDCS_2_scalar.msh"))
 
     tags_keep = np.hstack((np.arange(1, 100), np.arange(1001, 1100)))
     m1 = m1.crop_mesh(tags=tags_keep)
