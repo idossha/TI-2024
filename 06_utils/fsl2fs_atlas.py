@@ -51,6 +51,7 @@ def format_labels(labels, color_map):
 def main():
     parser = argparse.ArgumentParser(description='Convert label text file from FSL format to Freesurfer format.')
     parser.add_argument('input_file', type=str, help='Path to the input label text file.')
+    parser.add_argument('output_file', type=str, help='Path to the output formatted text file.')
     
     args = parser.parse_args()
     
@@ -65,9 +66,11 @@ def main():
     formatted_data = format_labels(labels, color_map)
 
     header = "#No.\tLabel Name:\t\tR\tG\tB\tA"
-    print(header)
-    for data in formatted_data:
-        print(data)
+    
+    with open(args.output_file, "w") as output_file:
+        output_file.write(header + "\n")
+        for data in formatted_data:
+            output_file.write(data + "\n")
 
 if __name__ == "__main__":
     main()
