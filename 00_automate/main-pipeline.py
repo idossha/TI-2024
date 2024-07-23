@@ -1,4 +1,5 @@
 
+
 import os
 import subprocess
 import argparse
@@ -23,7 +24,7 @@ def extract_gm_mesh(script_dir, input_file, output_file):
     end_time = time.time()
     print(f"GM extraction completed in {end_time - start_time:.2f} seconds")
 
-def transform_gm_to_nifti(script_dir, mesh_dir):
+def transform_gm_to_nifti(script_dir, gm_mesh_dir):
     # Run the mesh2nii_loop.sh script
     print("Transforming GM mesh to NIfTI in MNI space...")
     mesh2nii_script_path = os.path.join(script_dir, "mesh2nii_loop.sh")
@@ -32,16 +33,27 @@ def transform_gm_to_nifti(script_dir, mesh_dir):
     end_time = time.time()
     print(f"GM mesh to NIfTI transformation completed in {end_time - start_time:.2f} seconds")
 
+def process_mesh_files(script_dir, whole_brain_mesh_dir):
+    # Run the process_mesh_files.sh script
+    print("Processing mesh files...")
+    process_mesh_script_path = os.path.join(script_dir, "field-analysis", "process_mesh_files.sh")
+    start_time = time.time()
+    subprocess.run(["bash", process_mesh_script_path, whole_brain_mesh_dir])
+    end_time = time.time()
+    print(f"Mesh files processed in {end_time - start_time:.2f} seconds")
+
 def main(m2m_path, script_dir):
     # Ensure we are using absolute paths
     m2m_path = os.path.abspath(m2m_path)
     script_dir = os.path.abspath(script_dir)
     sim_dir = os.path.join(script_dir, "Simulations")
-    mesh_dir = os.path.join(script_dir, "mesh")
+    gm_mesh_dir = os.path.join(script_dir, "GM_mesh")
+    whole_brain_mesh_dir = os.path.join(script_dir, "Whole-Brain-mesh")
     niftis_dir = os.path.join(script_dir, "niftis")
 
     # Ensure the mesh and niftis directories exist
-    os.makedirs(mesh_dir, exist_ok=True)
+    os.makedirs(gm_mesh_dir, exist_ok=True)
+    os.makedirs(whole_brain_mesh_dir, exist_ok=True)
     os.makedirs(niftis_dir, exist_ok=True)
 
     # Run TI simulation
@@ -53,11 +65,18 @@ def main(m2m_path, script_dir):
         if os.path.isdir(subdir_path):
             ti_vectors_file = os.path.join(subdir_path, "TI_vectors.msh")
             if os.path.exists(ti_vectors_file):
-                output_file = os.path.join(mesh_dir, f"grey_{subdir}.msh")
+                output_file = os.path.join(gm_mesh_dir, f"grey_{subdir}.msh")
                 extract_gm_mesh(script_dir, ti_vectors_file, output_file)
+                # Rename and move TI_vectors.msh to Whole-Brain-mesh directory
+                new_name = f"{subdir}_TI_vectors.msh"
+                new_path = os.path.join(whole_brain_mesh_dir, new_name)
+                os.rename(ti_vectors_file, new_path)
 
     # Transform GM mesh to NIfTI in MNI space
-    transform_gm_to_nifti(script_dir, mesh_dir)
+    transform_gm_to_nifti(script_dir, gm_mesh_dir)
+    
+    # Process mesh files
+    process_mesh_files(script_dir, whole_brain_mesh_dir)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run the full simulation pipeline.')
