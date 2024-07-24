@@ -2,7 +2,7 @@
 #!/bin/bash
 
 # Define the directory containing .msh files
-MESH_DIR="mesh"
+MESH_DIR="GM_mesh"
 # Define the path to the reference nifti file
 FN_REFERENCE="m2m_101"
 # Define the output directory
