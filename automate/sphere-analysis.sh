@@ -39,7 +39,7 @@ for i in "${!locations[@]}"; do
   echo "Voxel Coordinates: ${location} (${location_name})" >> $output_file
 
   for volume_file in "$nifti_dir"/*.nii*; do
-    volume_name=$(basename $volume_file .nii)
+    volume_name=$(basename "$volume_file" .nii)
 
     echo "Processing volume: $volume_file at location: $location"
 
@@ -82,11 +82,11 @@ echo "" >> $output_file
 echo "Differential Mean Values between Anterior and Posterior Locations:" >> $output_file
 
 for volume_file in "$nifti_dir"/*.nii*; do
-  volume_name=$(basename $volume_file .nii)
+  volume_name=$(basename "$volume_file" .nii)
   mean_anterior=${mean_values["${volume_name}_Anterior"]}
   mean_posterior=${mean_values["${volume_name}_Posterior"]}
   
-  if [ -n "$mean_anterior" ] && [ -n "$mean_posterior"] ; then
+  if [ -n "$mean_anterior" ] && [ -n "$mean_posterior" ]; then
     differential_value=$(echo "$mean_anterior - $mean_posterior" | bc)
     absolute_differential_value=$(echo "$differential_value" | awk '{if ($1<0) print -1*$1; else print $1}')
     echo "${volume_name} = ${absolute_differential_value}" >> $output_file
