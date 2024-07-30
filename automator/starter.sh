@@ -13,6 +13,11 @@ validate_pair() {
     return 0
 }
 
+# Prompt for project base directory
+read -p "Enter the base directory of the project (e.g., /Path/X/Project_name): " project_base
+subject_dir="$project_base/Subjects"
+simulation_dir="$project_base/Simulations"
+
 # Prompt for subject ID
 read -p "Enter Subject ID: " subject_id
 echo "Subject ID: $subject_id"
@@ -150,7 +155,7 @@ for number in "${selected_numbers[@]}"; do
 done
 
 # Call the main pipeline script with the gathered parameters
-./main.sh "$subject_id" "$conductivity" "${selected_montages[@]}"
+./main.sh "$subject_id" "$conductivity" "$subject_dir" "$simulation_dir" "${selected_montages[@]}"
 
 if $new_montage_added; then
     echo "New montage added to montage_list.json."

@@ -1,4 +1,5 @@
 
+
 import os
 import sys
 import json
@@ -10,7 +11,9 @@ from simnibs.utils import TI_utils as TI
 # Get subject ID, simulation type, and montages from command-line arguments
 subject_id = sys.argv[1]
 sim_type = sys.argv[2]  # The anisotropy type
-montage_names = sys.argv[3:]  # The list of montages
+subject_dir = sys.argv[3]
+simulation_dir = sys.argv[4]
+montage_names = sys.argv[5:]  # The list of montages
 
 # Load montages from JSON file
 with open('montage_list.json') as f:
@@ -21,9 +24,8 @@ montages = {name: all_montages['uni_polar_montages'].get(name, all_montages['mul
             for name in montage_names}
 
 # Base paths
-base_subpath = f"m2m_{subject_id}"
-main_dir = os.path.abspath(os.path.join(base_subpath, os.pardir))
-base_pathfem = os.path.join(main_dir, "Simulations")
+base_subpath = os.path.join(subject_dir, f"m2m_{subject_id}")
+base_pathfem = os.path.join(simulation_dir, f"sim_{subject_id}", "FEM")
 conductivity_path = base_subpath
 tensor_file = os.path.join(conductivity_path, "DTI_coregT1_tensor.nii.gz")
 
@@ -37,7 +39,7 @@ def run_simulation(montage_name, montage):
     S.subpath = base_subpath
     S.anisotropy_type = sim_type
     S.pathfem = os.path.join(base_pathfem, f"TI_{montage_name}")
-    S.eeg_cap = f"{base_subpath}/eeg_positions/EGI_template.csv"
+    S.eeg_cap = os.path.join(base_subpath, "eeg_positions", "EGI_template.csv")
     S.map_to_surf = False
     S.map_to_fsavg = False
     S.map_to_vol = False

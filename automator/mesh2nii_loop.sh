@@ -1,15 +1,18 @@
 
+
 #!/bin/bash
 
-# Get the subject ID from the command-line arguments
+# Get the subject ID, subject directory, and simulation directory from the command-line arguments
 subject_id="$1"
+subject_dir="$2"
+simulation_dir="$3"
 
 # Define the directory containing .msh files
-MESH_DIR="GM_mesh"
+MESH_DIR="$simulation_dir/sim_${subject_id}/GM_mesh"
 # Define the path to the reference nifti file
-FN_REFERENCE="m2m_${subject_id}"
+FN_REFERENCE="$subject_dir/m2m_${subject_id}"
 # Define the output directory
-OUTPUT_DIR="niftis"
+OUTPUT_DIR="$simulation_dir/sim_${subject_id}/niftis"
 
 # Create output directory if it doesn't exist
 mkdir -p "$OUTPUT_DIR"

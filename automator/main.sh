@@ -6,25 +6,28 @@ set -e  # Exit immediately if a command exits with a non-zero status
 # Gather arguments from the prompter script
 subject_id=$1
 conductivity=$2
-shift 2
+subject_dir=$3
+simulation_dir=$4
+shift 4
 selected_montages=("$@")
 
 # Set the script directory to the present working directory
 script_dir="$(pwd)"
 
 # Set subdirectory paths
-sim_dir="$script_dir/Simulations"
-gm_mesh_dir="$script_dir/GM_mesh"
-whole_brain_mesh_dir="$script_dir/Whole-Brain-mesh"
-nifti_dir="$script_dir/niftis"
-output_dir="$script_dir/ROI_analysis"
-screenshots_dir="$script_dir/screenshots"
+sim_dir="$simulation_dir/sim_${subject_id}"
+fem_dir="$sim_dir/FEM"
+whole_brain_mesh_dir="$sim_dir/Whole-Brain-mesh"
+gm_mesh_dir="$sim_dir/GM_mesh"
+nifti_dir="$sim_dir/niftis"
+output_dir="$sim_dir/ROI_analysis"
+screenshots_dir="$sim_dir/screenshots"
 
 # Ensure directories exist
-mkdir -p "$gm_mesh_dir" "$whole_brain_mesh_dir" "$nifti_dir" "$output_dir" "$screenshots_dir"
+mkdir -p "$whole_brain_mesh_dir" "$gm_mesh_dir" "$nifti_dir" "$output_dir" "$screenshots_dir"
 
 # Main script: Run TI.py with the selected parameters
-simnibs_python TI.py "$subject_id" "$conductivity" "${selected_montages[@]}"
+simnibs_python TI.py "$subject_id" "$conductivity" "$subject_dir" "$simulation_dir" "${selected_montages[@]}"
 
 # Function to extract GM mesh
 extract_gm_mesh() {
@@ -40,7 +43,7 @@ extract_gm_mesh() {
 transform_gm_to_nifti() {
     echo "Transforming GM mesh to NIfTI in MNI space..."
     mesh2nii_script_path="$script_dir/mesh2nii_loop.sh"
-    bash "$mesh2nii_script_path" "$subject_id"
+    bash "$mesh2nii_script_path" "$subject_id" "$subject_dir" "$simulation_dir"
     echo "GM mesh to NIfTI transformation completed"
 }
 
@@ -56,7 +59,7 @@ process_mesh_files() {
 run_sphere_analysis() {
     echo "Running sphere analysis..."
     sphere_analysis_script_path="$script_dir/sphere-analysis.sh"
-    bash "$sphere_analysis_script_path" "$nifti_dir" "$output_dir"
+    bash "$sphere_analysis_script_path" "$subject_id" "$simulation_dir"
     echo "Sphere analysis completed"
 }
 
@@ -70,17 +73,24 @@ generate_screenshots() {
     echo "Screenshots generated"
 }
 
-# Extract GM from TI_vectors.msh
-for subdir in "$sim_dir"/*/; do
-    mesh_file="$subdir/TI.msh"
-    if [ -e "$mesh_file" ]; then
-        subdir_name=$(basename "$subdir")
-        output_file="$gm_mesh_dir/grey_${subdir_name}.msh"
-        extract_gm_mesh "$mesh_file" "$output_file"
-        new_name="${subdir_name}_TI.msh"
-        new_path="$whole_brain_mesh_dir/$new_name"
-        mv "$mesh_file" "$new_path"
+# Move and rename TI.msh files
+for ti_dir in "$fem_dir"/TI_*; do
+    if [ -d "$ti_dir" ]; then
+        ti_msh_file="$ti_dir/TI.msh"
+        if [ -e "$ti_msh_file" ]; then
+            montage_name=$(basename "$ti_dir")
+            new_name="${subject_id}_${montage_name}_TI.msh"
+            new_path="$whole_brain_mesh_dir/$new_name"
+            mv "$ti_msh_file" "$new_path"
+            echo "Moved $ti_msh_file to $new_path"
+        fi
     fi
+done
+
+# Extract GM from TI.msh
+for mesh_file in "$whole_brain_mesh_dir"/*.msh; do
+    output_file="$gm_mesh_dir/grey_$(basename "$mesh_file")"
+    extract_gm_mesh "$mesh_file" "$output_file"
 done
 
 transform_gm_to_nifti
@@ -89,3 +99,4 @@ run_sphere_analysis
 generate_screenshots "$nifti_dir" "$screenshots_dir"
 
 echo "All tasks completed successfully for subject ID: $subject_id"
+

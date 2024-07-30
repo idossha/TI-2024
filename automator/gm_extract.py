@@ -1,3 +1,4 @@
+
 #!/Users/idohaber/Applications/SimNIBS-4.1/bin/simnibs_python
 # -*- coding: utf-8 -*-
 import argparse
@@ -27,3 +28,4 @@ if __name__ == "__main__":
     parser.add_argument('--output_file', type=str, help='Path to the output mesh file', default=None)
     args = parser.parse_args()
     main(args.input_file, args.output_file)
+
