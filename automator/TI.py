@@ -1,23 +1,30 @@
 
 import os
-import time
+import sys
+import json
 from copy import deepcopy
 import numpy as np
 from simnibs import mesh_io, run_simnibs, sim_struct
 from simnibs.utils import TI_utils as TI
 
-# Unipolar - Make sure you run at 5mA
+# Get subject ID, simulation type, and montages from command-line arguments
+subject_id = sys.argv[1]
+sim_type = sys.argv[2]  # The anisotropy type
+montage_names = sys.argv[3:]  # The list of montages
 
-montages = {
-         "Wide_1": [("E076", "E172"), ("E088", "E142")],
-        "Anterior": [("E066", "E164"), ("E079", "E143")]
-}
+# Load montages from JSON file
+with open('montage_list.json') as f:
+    all_montages = json.load(f)
+
+# Create the montages dictionary based on the selected montages
+montages = {name: all_montages['uni_polar_montages'].get(name, all_montages['multi_polar_montages'].get(name))
+            for name in montage_names}
 
 # Base paths
-base_subpath = "m2m_101"
+base_subpath = f"m2m_{subject_id}"
 main_dir = os.path.abspath(os.path.join(base_subpath, os.pardir))
 base_pathfem = os.path.join(main_dir, "Simulations")
-conductivity_path = "m2m_101"
+conductivity_path = base_subpath
 tensor_file = os.path.join(conductivity_path, "DTI_coregT1_tensor.nii.gz")
 
 # Ensure the base_pathfem directory exists
@@ -28,9 +35,9 @@ if not os.path.exists(base_pathfem):
 def run_simulation(montage_name, montage):
     S = sim_struct.SESSION()
     S.subpath = base_subpath
-    S.anisotropy_type = "dir"
+    S.anisotropy_type = sim_type
     S.pathfem = os.path.join(base_pathfem, f"TI_{montage_name}")
-    S.eeg_cap = "m2m_101/eeg_positions/EGI_template.csv"
+    S.eeg_cap = f"{base_subpath}/eeg_positions/EGI_template.csv"
     S.map_to_surf = False
     S.map_to_fsavg = False
     S.map_to_vol = False
@@ -43,7 +50,7 @@ def run_simulation(montage_name, montage):
 
     # First electrode pair
     tdcs = S.add_tdcslist()
-    tdcs.anisotropy_type = 'dir'  # Set anisotropy_type to 'dir'
+    tdcs.anisotropy_type = sim_type  # Set anisotropy_type to the input sim_type
     tdcs.currents = [0.005, -0.005]
     electrode = tdcs.add_electrode()
     electrode.channelnr = 1
@@ -67,11 +74,11 @@ def run_simulation(montage_name, montage):
 
     run_simnibs(S)
 
-    last_three_digits = base_subpath[-3:]
+    subject_identifier = base_subpath.split('_')[-1]
     anisotropy_type = S.anisotropy_type
 
-    m1_file = os.path.join(S.pathfem, f"{last_three_digits}_TDCS_1_{anisotropy_type}.msh")
-    m2_file = os.path.join(S.pathfem, f"{last_three_digits}_TDCS_2_{anisotropy_type}.msh")
+    m1_file = os.path.join(S.pathfem, f"{subject_identifier}_TDCS_1_{anisotropy_type}.msh")
+    m2_file = os.path.join(S.pathfem, f"{subject_identifier}_TDCS_2_{anisotropy_type}.msh")
 
     m1 = mesh_io.read_msh(m1_file)
     m2 = mesh_io.read_msh(m2_file)
@@ -92,7 +99,10 @@ def run_simulation(montage_name, montage):
     v = mout.view(visible_tags=[1002, 1006], visible_fields="TI_max")
     v.write_opt(os.path.join(S.pathfem, "TI.msh"))
 
-# Run the simulations
-for name, montage in montages.items():
-    run_simulation(name, montage)
+# Run the simulations for each selected montage
+for name in montage_names:
+    if name in montages:
+        run_simulation(name, montages[name])
+    else:
+        print(f"Montage {name} not found. Skipping.")
 

@@ -2,7 +2,7 @@
 This script takes digitized sensor data from Brainstorm 
 and transofrm it to SimNIBS appropriate format.
 
-CSV 2 CSV
+Input should be "EEG/Brainsight .txt format from Brainstorm export"
 
 Ido Haber
 

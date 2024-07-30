@@ -9,71 +9,60 @@ def run_mti_simulation(script_dir):
     # Run the mTI.py script
     print("Running mTI simulation...")
     mti_script_path = os.path.join(script_dir, "mTI.py")
-    start_time = time.time()
     result = subprocess.run(["simnibs_python", mti_script_path])
-    end_time = time.time()
     if result.returncode != 0:
         raise RuntimeError("mTI simulation failed")
-    print(f"mTI simulation completed in {end_time - start_time:.2f} seconds")
+    print(f"mTI simulation completed")
 
 def extract_gm_mesh(script_dir, input_file, output_file):
     # Run the gm_extract.py script
     print(f"Extracting GM from {input_file}...")
     gm_extract_script_path = os.path.join(script_dir, "gm_extract.py")
     cmd = ["simnibs_python", gm_extract_script_path, input_file, "--output_file", output_file]
-    start_time = time.time()
     result = subprocess.run(cmd)
-    end_time = time.time()
     if result.returncode != 0:
         raise RuntimeError(f"GM extraction failed for {input_file}")
-    print(f"GM extraction completed in {end_time - start_time:.2f} seconds")
+    print(f"GM extraction completed")
 
 def transform_gm_to_nifti(script_dir, gm_mesh_dir):
     # Run the mesh2nii_loop.sh script
     print("Transforming GM mesh to NIfTI in MNI space...")
     mesh2nii_script_path = os.path.join(script_dir, "mesh2nii_loop.sh")
-    start_time = time.time()
     result = subprocess.run(["bash", mesh2nii_script_path, gm_mesh_dir])
-    end_time = time.time()
     if result.returncode != 0:
         raise RuntimeError("GM mesh to NIfTI transformation failed")
-    print(f"GM mesh to NIfTI transformation completed in {end_time - start_time:.2f} seconds")
+    print(f"GM mesh to NIfTI transformation completed")
 
 def process_mesh_files(script_dir, whole_brain_mesh_dir):
     # Run the process_mesh_files.sh script
     print("Processing mesh files...")
     process_mesh_script_path = os.path.join(script_dir, "field-analysis", "process_mesh_files.sh")
-    start_time = time.time()
     result = subprocess.run(["bash", process_mesh_script_path, whole_brain_mesh_dir])
-    end_time = time.time()
     if result.returncode != 0:
         raise RuntimeError("Processing mesh files failed")
-    print(f"Mesh files processed in {end_time - start_time:.2f} seconds")
+    print(f"Mesh files processed")
 
 def run_sphere_analysis(script_dir, nifti_dir, output_dir):
     # Run the sphere-analysis.sh script
     print("Running sphere analysis...")
     sphere_analysis_script_path = os.path.join(script_dir, "sphere-analysis.sh")
-    start_time = time.time()
     result = subprocess.run(["bash", sphere_analysis_script_path, nifti_dir, output_dir])
-    end_time = time.time()
     if result.returncode != 0:
         raise RuntimeError("Sphere analysis failed")
-    print(f"Sphere analysis completed in {end_time - start_time:.2f} seconds")
+    print(f"Sphere analysis completed")
 
 def generate_screenshots(script_dir, input_dir, output_dir):
     # Run the screenshot.sh script
     print("Generating screenshots...")
     screenshot_script_path = os.path.join(script_dir, "screenshot.sh")
-    start_time = time.time()
     result = subprocess.run(["bash", screenshot_script_path, input_dir, output_dir])
-    end_time = time.time()
     if result.returncode != 0:
         raise RuntimeError("Screenshot generation failed")
-    print(f"Screenshots generated in {end_time - start_time:.2f} seconds")
+    print(f"Screenshots generated")
 
 def main(m2m_path, script_dir):
     # Ensure we are using absolute paths
+    start_time = time.time()
     m2m_path = os.path.abspath(m2m_path)
     script_dir = os.path.abspath(script_dir)
     sim_dir = os.path.join(script_dir, "Multipolar_Simulations")
@@ -106,16 +95,22 @@ def main(m2m_path, script_dir):
             os.rename(mesh_file, new_path)
 
     # Transform GM mesh to NIfTI in MNI space
-    #transform_gm_to_nifti(script_dir, gm_mesh_dir)
+    transform_gm_to_nifti(script_dir, gm_mesh_dir)
     
     # Process mesh files
-    #process_mesh_files(script_dir, whole_brain_mesh_dir)
+    process_mesh_files(script_dir, whole_brain_mesh_dir)
     
     # Run sphere analysis on NIfTI files
     run_sphere_analysis(script_dir, niftis_dir, roi_analysis_dir)
     
     # Generate screenshots
-    #generate_screenshots(script_dir, niftis_dir, screenshots_dir)
+    generate_screenshots(script_dir, niftis_dir, screenshots_dir)
+    
+    end_time = time.time()
+
+    print(f"mTI pipeline finished in {end_time - start_time: .2f} seconds, phew!")
+
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run the full simulation pipeline.')

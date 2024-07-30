@@ -1,10 +1,13 @@
 
 #!/bin/bash
 
+# Get the subject ID from the command-line arguments
+subject_id="$1"
+
 # Define the directory containing .msh files
 MESH_DIR="GM_mesh"
 # Define the path to the reference nifti file
-FN_REFERENCE="m2m_101"
+FN_REFERENCE="m2m_${subject_id}"
 # Define the output directory
 OUTPUT_DIR="niftis"
 
