@@ -1,0 +1,52 @@
+
+# Use a base image with Python
+FROM ubuntu:20.04
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-venv \
+    wget \
+    bzip2 \
+    unzip \
+    curl \
+    git \
+    ca-certificates \
+    libx11-6 \
+    libxt6 \
+    libglu1-mesa \
+    freeglut3 \
+    libxmu6 \
+    libxi6 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install FSL
+RUN wget -qO- http://fsl.fmrib.ox.ac.uk/fsldownloads/fslinstaller.py | python3 - --dest=/usr/local
+ENV FSLDIR=/usr/local/fsl
+ENV PATH=${FSLDIR}/bin:${PATH}
+ENV FSLOUTPUTTYPE=NIFTI_GZ
+
+# Install SimNIBS
+RUN wget https://simnibs.github.io/simnibs/builds/simnibs-3.2.4/simnibs-3.2.4-linux.tar.gz \
+    && tar -xvzf simnibs-3.2.4-linux.tar.gz -C /usr/local \
+    && rm simnibs-3.2.4-linux.tar.gz
+ENV SIMNIBSDIR=/usr/local/simnibs-3.2.4
+ENV PATH=${SIMNIBSDIR}/bin:${PATH}
+
+# Copy the project files into the container
+WORKDIR /app
+COPY . /app
+
+# Install Python dependencies
+RUN python3 -m venv venv
+RUN /bin/bash -c "source venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt"
+
+# Source the virtual environment by default
+RUN echo "source /app/venv/bin/activate" >> /root/.bashrc
+
+# Set the entry point for the container
+ENTRYPOINT ["/bin/bash"]
