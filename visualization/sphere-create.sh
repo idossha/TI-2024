@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # Directory setup
@@ -7,7 +6,7 @@ mkdir -p $output_dir
 
 # Volumes to process
 volumes=(
-   "Wide_4.nii"
+   "combined_mask.nii.gz"
 )
 
 # Voxel coordinates to check
@@ -15,6 +14,8 @@ locations=(
   "95 73 127"
   "95 56 116"
   "95 79 89"
+  "101 101 81"
+  '95 70 108'
 )
 
 # Location names
@@ -22,6 +23,8 @@ location_names=(
   "Anterior"
   "Posterior"
   "RSC"
+  "thalamus"
+  "thransition"
 )
 
 # Radius for the spherical region (in voxels)
@@ -43,8 +46,13 @@ for i in "${!locations[@]}"; do
     volume_name=$(basename $volume_file .nii)
     roi_file="${output_dir}/sphere_${volume_name}_${location_name}.nii.gz"
 
+    # Convert coordinates to integers for the ROI command
+    ivx=$(printf "%.0f" $vx)
+    ivy=$(printf "%.0f" $vy)
+    ivz=$(printf "%.0f" $vz)
+
     # Create the spherical ROI
-    fslmaths $volume_file -mul 0 -add 1 -roi $vx 1 $vy 1 $vz 1 0 1 temp_point -odt float
+    fslmaths $volume_file -mul 0 -add 1 -roi $ivx 1 $ivy 1 $ivz 1 0 1 temp_point -odt float
     fslmaths temp_point -kernel sphere $radius -dilM -bin $roi_file -odt float
 
     # Add the spherical ROI to the combined volume
@@ -54,4 +62,3 @@ done
 
 # Visualize the original volume and the combined spherical ROIs with Freeview
 freeview -v ${volumes[0]}:colormap=grayscale $combined_roi_file:colormap=heat:opacity=0.4 &
-
