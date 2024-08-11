@@ -4,6 +4,11 @@ August 2024
 
 ---
 
+Currently only works perfectly on AMD/Intel processors. Not ARM.
+
+---
+
+
 These are the necessary docker files to rebuild the image if necessary.
 
 #### Steps of Operations:
