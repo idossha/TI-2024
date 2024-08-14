@@ -1,8 +1,0 @@
--v MNI152_T1_1mm.nii.gz:colormap=grayscale 
--v neuro-ego.nii.gz:colormap=lut:lut=NeuroEgo.txt:isosurface=1 
--viewport coronal 
--viewport 3d 
--viewsize 600 600 
--ras -4.49 -43.38 30.80 
--zoom 1.2
-
