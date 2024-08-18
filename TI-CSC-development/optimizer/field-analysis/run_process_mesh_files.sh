@@ -64,4 +64,3 @@ else
 
   eval "\"${exe_dir}/process_mesh_files.app/Contents/MacOS/process_mesh_files\" \"$mesh_dir\" $args"
 fi
-e
