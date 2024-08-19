@@ -12,26 +12,28 @@ volumes=(
 
 # Voxel coordinates to check
 locations=(
-  #"95 73 127"
-  #"95 56 116"
-  #"95 79 89"
+  "95 73 127"
+  "95 56 116"
+  "95 79 89"
   "122 139 57"
+  "101 101 81"
 
 )
 
 # Location names
 location_names=(
-  #"Anterior"
-  #"Posterior"
-  #"RSC"
+  "Anterior"
+  "Posterior"
+  "RSC"
   "LAA-IC"
+  "thalamus"
 )
 
 # Radius for the spherical region (in voxels)
 radius=3
 
 # Initialize the combined ROI volume with zeros
-combined_roi_file="${output_dir}/left_Insula_sphere.nii.gz"
+combined_roi_file="${output_dir}/combined-spheres.nii.gz"
 fslmaths ${volumes[0]} -mul 0 $combined_roi_file -odt float
 
 # Create spherical ROIs and combine them into the combined ROI volume
