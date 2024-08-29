@@ -22,7 +22,7 @@ def process_file(input_file, output_file):
             #writer.writerow(['Electrode', 'Loc. X', 'Loc. Y', 'Loc. Z', 'Sample Name'])
 
             # Skip the header and notes in the input file
-            for _ in range(9):
+            for _ in range(7):
                 next(reader)
 
             # Process each line in the input file

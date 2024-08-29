@@ -2,12 +2,12 @@
 #!/bin/bash
 
 # Directory setup
-output_dir="/Users/idohaber/Desktop/screenshots"
+output_dir="../analyzer/base-niftis/"
 mkdir -p $output_dir
 
 # Volumes to process
 volumes=(
-   "MNI152_T1_1mm.nii.gz"
+   "../analyzer/base-niftis/MNI152_T1_1mm.nii.gz"
 )
 
 # Voxel coordinates to check
@@ -16,8 +16,6 @@ locations=(
   "95 56 116"
   "95 79 89"
   "122 139 57"
-  "101 101 81"
-
 )
 
 # Location names
@@ -26,7 +24,6 @@ location_names=(
   "Posterior"
   "RSC"
   "LAA-IC"
-  "thalamus"
 )
 
 # Radius for the spherical region (in voxels)
@@ -54,8 +51,14 @@ for i in "${!locations[@]}"; do
 
     # Add the spherical ROI to the combined volume
     fslmaths $combined_roi_file -add $roi_file $combined_roi_file -odt float
+
+    # Delete the temporary spherical ROI file
+    rm -f $roi_file
   done
 done
+
+# Delete the temporary point file
+rm -f temp_point.nii.gz
 
 # Visualize the original volume and the combined spherical ROIs with Freeview
 freeview -v ${volumes[0]}:colormap=grayscale $combined_roi_file:colormap=heat:opacity=0.4 &
